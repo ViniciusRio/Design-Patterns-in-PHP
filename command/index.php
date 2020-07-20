@@ -2,16 +2,23 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use App\ConceptualExample\Invoker;
-use App\ConceptualExample\Commands\SimpleCommand;
-use App\ConceptualExample\Commands\ComplexCommand;
-use App\ConceptualExample\Receiver;
+use App\RealExample\RemoteControl;
+use App\RealExample\Models\Light;
+use App\RealExample\Models\Stereo;
+use App\RealExample\Commands\LightOnCommand;
+use App\RealExample\Commands\StereoSetCDCommand;
 
+// invoker
+$remoteControl = new RemoteControl();
 
-$invoker = new Invoker();
-$invoker->setOnStart(new SimpleCommand("Say Hi!"));
-$receiver = new Receiver();
-$invoker->setOnFinish(new ComplexCommand($receiver, "Send email", "Save report"));
+// receiver
+$light = new Light();
+$stereo = new Stereo();
 
-$invoker->doSomethingImportant();
-
+// commands
+// light
+$remoteControl->setCommand(new LightOnCommand($light));
+$remoteControl->pressButton();
+// stereo
+$remoteControl->setCommand(new StereoSetCDCommand($stereo));
+$remoteControl->pressButton();
